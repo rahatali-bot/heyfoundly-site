@@ -488,7 +488,7 @@ H.addEventListener('pointerleave',function(){auto=true;});
   function mkChaser(i){var d=document.createElement('div');d.className='chaser';d.style.setProperty('--c',cols[i%cols.length]);
     d.innerHTML='<span class="eyes"><i></i><i></i></span><span class="mouth"></span><span class="feet"><i></i><i></i></span><span class="got">0</span>';fun.appendChild(d);
     return{e:d,x:innerWidth*(.2+.3*i),vx:0,jump:0,n:0,dir:1};}
-  for(var ci=0;ci<3;ci++)chasers.push(mkChaser(ci));
+  
   function crumbs(x,y,col){for(var q=0;q<6;q++){var b=document.createElement('span');b.className='crumb';b.style.background=col;document.body.appendChild(b);
     var dx=(Math.random()-.5)*50,dy=-10-Math.random()*30;b.animate([{transform:'translate('+x+'px,'+y+'px)',opacity:1},{transform:'translate('+(x+dx)+'px,'+(y+dy+40)+'px)',opacity:0}],{duration:600,easing:'ease-out'}).onfinish=function(){this.effect.target.remove();};}}
   function catchIt(c,g){c.e.classList.remove('munch');void c.e.offsetWidth;c.e.classList.add('munch');crumbs(c.x,c.y-14,getComputedStyle(c.e).getPropertyValue('--c'));c.n++;var t=c.e.querySelector('.got');t.textContent=g.e.textContent+' '+c.n;t.animate([{scale:'1.7'},{scale:'1'}],{duration:260});
