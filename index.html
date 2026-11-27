@@ -41,6 +41,15 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 .brandmark b{color:var(--sun,#ffe14d);font-weight:400}
 .tld{font:500 .38em/1 var(--mono);letter-spacing:.04em;text-transform:lowercase;color:#bdbdbd;align-self:flex-end;margin:0 0 .28em -.35em}
 .logo .tld{font-size:.42em;margin-bottom:.22em}
+.snd{display:inline-flex;align-items:center;gap:8px;font:600 .82rem var(--body);cursor:pointer;color:var(--fg)}
+.snd .bars{display:inline-flex;align-items:flex-end;gap:2px;height:14px}
+.snd .bars i{width:3px;height:4px;background:var(--sun,#ffe14d);border-radius:2px}
+.snd.on .bars i{animation:eq .9s ease-in-out infinite}
+.snd.on .bars i:nth-child(2){animation-delay:-.3s}.snd.on .bars i:nth-child(3){animation-delay:-.6s}.snd.on .bars i:nth-child(4){animation-delay:-.15s}
+@keyframes eq{0%,100%{height:4px}50%{height:14px}}
+.sndhint{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:7;display:flex;align-items:center;gap:10px;background:rgba(11,18,32,.85);border:1px solid var(--edge);backdrop-filter:blur(10px);border-radius:999px;padding:10px 12px 10px 16px;font-size:.88rem;box-shadow:0 18px 40px -20px #000}
+.sndhint button{border:0;border-radius:999px;padding:8px 14px;font:700 .75rem var(--body);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.sndhint .yes{background:var(--sun,#ffe14d);color:#050505}.sndhint .no{background:transparent;color:var(--dim)}
 .pun{display:block;margin-top:10px;font:500 .9rem/1.3 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#bdbdbd}
 .bigfoot{font:400 clamp(4rem,17vw,15rem)/.8 var(--display);text-transform:uppercase;text-align:center;letter-spacing:.01em;margin:0;padding-block:40px 0;background:linear-gradient(180deg,#ffffff 0%,rgba(255,255,255,.08) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none;overflow:hidden;white-space:nowrap}
 .links{display:flex;gap:22px;align-items:center;font-size:.92rem}
@@ -216,6 +225,7 @@ footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:12px;justify-con
       <a href="#how">How it works</a>
       <a href="#launch">Start from zero</a>
       <a href="#pricing">Pricing</a>
+      <button class="pill snd" id="sndBtn" type="button" aria-pressed="false"><span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="sndTxt">Sound on</span></button>
       <a class="pill" href="#contact">Free check</a>
     </div>
   </div>
@@ -348,6 +358,43 @@ H.addEventListener('pointerleave',function(){auto=true;});
 (function drift(){requestAnimationFrame(drift);if(!auto)return;ax+=calm?0:.008;var r=H.getBoundingClientRect();setL(r.width*(.5+.32*Math.sin(ax)),r.height*(.5+.28*Math.sin(ax*1.7)));})();
 })();
 
+// SOUND — generated live in the browser (no music files): a soft night-city pad that brightens as the mouse moves,
+// gentle chimes on movement, a pop when someone walks in. Off until the visitor taps; browsers never autoplay sound.
+(function(){
+  var btn=document.getElementById('sndBtn'),txt=document.getElementById('sndTxt'),ctx=null,master,filt,on=false,lastNote=0,lastX=0,lastY=0,speed=0;
+  var scale=[261.63,293.66,329.63,392.0,440.0,523.25,587.33,659.25,783.99,880.0];
+  function start(){
+    var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;
+    ctx=new AC();master=ctx.createGain();master.gain.value=0;master.connect(ctx.destination);
+    filt=ctx.createBiquadFilter();filt.type='lowpass';filt.frequency.value=500;filt.Q.value=.7;filt.connect(master);
+    var dl=ctx.createDelay(1.5);dl.delayTime.value=.42;var fb=ctx.createGain();fb.gain.value=.32;dl.connect(fb);fb.connect(dl);dl.connect(master);
+    window.__hfDelay=dl;
+    var chords=[[130.81,196.0,261.63,329.63],[110.0,164.81,220.0,261.63],[98.0,146.83,196.0,246.94],[116.54,174.61,233.08,293.66]],ci=0,voices=[];
+    for(var v=0;v<4;v++){var o1=ctx.createOscillator(),o2=ctx.createOscillator(),g=ctx.createGain();o1.type='sawtooth';o2.type='triangle';o2.detune.value=7;g.gain.value=.05;o1.connect(g);o2.connect(g);g.connect(filt);o1.start();o2.start();voices.push([o1,o2]);}
+    function setChord(){var c=chords[ci++%chords.length],t=ctx.currentTime;voices.forEach(function(p,i){p[0].frequency.setTargetAtTime(c[i],t,.8);p[1].frequency.setTargetAtTime(c[i]*2,t,.8);});}
+    setChord();setInterval(function(){if(on)setChord();},6000);
+    var lfo=ctx.createOscillator(),lg=ctx.createGain();lfo.frequency.value=.07;lg.gain.value=180;lfo.connect(lg);lg.connect(filt.frequency);lfo.start();
+    return true;
+  }
+  function chime(f,vol){if(!ctx||!on)return;var t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+1.4);o.connect(g);g.connect(master);g.connect(window.__hfDelay);o.start(t);o.stop(t+1.5);}
+  window.__hfPop=function(){if(!ctx||!on)return;var t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.setValueAtTime(880,t);o.frequency.exponentialRampToValueAtTime(1320,t+.08);g.gain.setValueAtTime(.07,t);g.gain.exponentialRampToValueAtTime(.0001,t+.25);o.connect(g);g.connect(master);o.start(t);o.stop(t+.3);};
+  function set(v){on=v;btn.classList.toggle('on',v);btn.setAttribute('aria-pressed',v);txt.textContent=v?'Sound off':'Sound on';
+    if(ctx){var t=ctx.currentTime;master.gain.cancelScheduledValues(t);master.gain.setTargetAtTime(v?.55:0,t,.6);if(v&&ctx.state==='suspended')ctx.resume();}
+    try{localStorage.setItem('hfSound',v?'1':'0');}catch(e){}}
+  function enable(){if(!ctx&&!start())return;set(true);chime(523.25,.12);setTimeout(function(){chime(659.25,.1);},160);setTimeout(function(){chime(783.99,.09);},320);}
+  btn.addEventListener('click',function(){on?set(false):enable();var h=document.getElementById('sndHint');if(h)h.remove();});
+  addEventListener('pointermove',function(e){if(!on||!ctx)return;var dx=e.clientX-lastX,dy=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;speed=speed*.85+Math.min(60,Math.hypot(dx,dy))*.15;
+    filt.frequency.setTargetAtTime(420+speed*40+(1-e.clientY/innerHeight)*500,ctx.currentTime,.25);
+    var now=performance.now();if(speed>6&&now-lastNote>260){lastNote=now;var i=Math.min(scale.length-1,Math.floor(e.clientX/innerWidth*scale.length));chime(scale[i],.045+Math.min(.05,speed/600));}},{passive:true});
+  addEventListener('pointerdown',function(e){if(!on)return;var i=Math.floor(e.clientX/innerWidth*scale.length);chime(scale[Math.min(scale.length-1,i)]*2,.09);});
+  // a small invitation, since sound can only start after a tap
+  var pref=null;try{pref=localStorage.getItem('hfSound');}catch(e){}
+  if(pref!=='0'&&!matchMedia('(prefers-reduced-motion: reduce)').matches){setTimeout(function(){
+    var h=document.createElement('div');h.className='sndhint';h.id='sndHint';h.innerHTML='🎧 This site has sound. <button class="yes" type="button">Turn it on</button><button class="no" type="button">No thanks</button>';
+    document.body.appendChild(h);h.querySelector('.yes').onclick=function(){enable();h.remove();};h.querySelector('.no').onclick=function(){set(false);h.remove();};
+    setTimeout(function(){if(h.isConnected)h.remove();},12000);},1800);}
+})();
+
 // FUN LAYER — little people walk across the screen chatting; icons follow the cursor
 (function(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -362,7 +409,7 @@ H.addEventListener('pointerleave',function(){auto=true;});
     var c=colors[Math.floor(Math.random()*colors.length)];
     w.innerHTML=person(c)+'<span class="bub">'+lines[li++%lines.length]+'</span>';
     var vh=innerHeight,y=vh*(.55+Math.random()*.38);w.style.top=y+'px';
-    fun.appendChild(w);live++;
+    fun.appendChild(w);live++;if(window.__hfPop)setTimeout(window.__hfPop,400);
     var W=w.offsetWidth,from=rtl?innerWidth+20:-W-20,to=rtl?-W-20:innerWidth+20;
     var dur=(innerWidth+W)/ (55+Math.random()*35)*1000;
     if(rtl)w.querySelector('svg').style.transform='scaleX(-1)';
