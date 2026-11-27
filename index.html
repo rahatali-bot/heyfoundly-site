@@ -362,7 +362,7 @@ H.addEventListener('pointerleave',function(){auto=true;});
 // Moving the mouse opens the filter and adds sparkles in key; clicking adds a riser hit. Off until the visitor taps.
 (function(){
   var btn=document.getElementById('sndBtn'),txt=document.getElementById('sndTxt'),ctx=null,bus,filt,comp,on=false,timer=null;
-  var BPM=118,STEP=60/BPM/4,step=0,next=0,lastNote=0,lastX=0,lastY=0,speed=0;
+  var BPM=92,STEP=60/BPM/4,step=0,next=0,lastNote=0,lastX=0,lastY=0,speed=0;
   var prog=[[57,60,64],[53,57,60],[48,52,55],[55,59,62]];               // Am  F  C  G (MIDI)
   var mel=[76,null,72,74,76,null,79,null,76,74,72,null,74,null,69,null];
   var mf=function(m){return 440*Math.pow(2,(m-69)/12);};
@@ -397,7 +397,7 @@ H.addEventListener('pointerleave',function(){auto=true;});
   }
   function sparkle(m,v){if(!ctx||!on)return;pluck(ctx.currentTime+.01,m,v);}
   function set(v){on=v;btn.classList.toggle('on',v);btn.setAttribute('aria-pressed',v);txt.textContent=v?'Sound off':'Sound on';
-    if(ctx){var t=ctx.currentTime;bus.gain.cancelScheduledValues(t);bus.gain.setTargetAtTime(v?.8:0,t,.25);
+    if(ctx){var t=ctx.currentTime;bus.gain.cancelScheduledValues(t);bus.gain.setTargetAtTime(v?.38:0,t,.25);
       if(v){if(ctx.state==='suspended')ctx.resume();next=ctx.currentTime+.05;clearInterval(timer);timer=setInterval(tick,25);}else{setTimeout(function(){if(!on)clearInterval(timer);},800);}}
     try{localStorage.setItem('hfSound',v?'1':'0');}catch(e){}}
   function enable(){if(!ctx&&!start())return;set(true);}
