@@ -166,6 +166,25 @@ footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:12px;justify-con
 .try-hint{margin-top:8px;font:400 .74rem var(--mono);color:var(--dim)}
 .hit.you{border-style:dashed}
 .hit .go{margin-top:6px;justify-self:start;font:700 .75rem var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--ember-2);text-decoration:none}
+
+/* spotlight hero (his pick 27/11: option C) */
+:root{--sun:#ffe14d}
+.sun{color:var(--sun)}
+.spot{position:relative;min-height:min(860px,100svh);overflow:hidden;display:flex;align-items:center;background:#050505;margin-top:calc(-1 * env(safe-area-inset-top,0px));cursor:none}
+.spot .words,.spot .lit{position:absolute;inset:0;display:flex;flex-wrap:wrap;align-content:center;gap:10px 18px;padding:24px;font:700 clamp(.9rem,1.6vw,1.2rem)/1.3 var(--body);user-select:none}
+.spot .words{color:#262626;z-index:0}
+.spot .words span.st{color:#3a2a10}
+.spot .lit{color:#fff;z-index:1;pointer-events:none;-webkit-mask-image:radial-gradient(circle var(--r,180px) at var(--x,50%) var(--y,50%),#000 30%,transparent 72%);mask-image:radial-gradient(circle var(--r,180px) at var(--x,50%) var(--y,50%),#000 30%,transparent 72%)}
+.spot .lit span.st{color:var(--sun)}
+.spot .lit span.you{color:#050505;background:var(--sun);padding:0 .3em;border-radius:6px}
+.spot .fadeband{position:absolute;inset:0;z-index:1;background:radial-gradient(60% 50% at 50% 50%,rgba(5,5,5,.78),transparent 75%);pointer-events:none}
+.spot .dotc{position:absolute;z-index:3;width:14px;height:14px;border-radius:50%;background:var(--sun);box-shadow:0 0 30px 8px rgba(255,225,77,.45);transform:translate(-50%,-50%);pointer-events:none;left:var(--x,50%);top:var(--y,50%)}
+.spot-in{position:relative;z-index:2;text-align:center;width:100%;padding-block:140px 80px;pointer-events:none}
+.spot-in h1{text-shadow:0 4px 40px #000}
+.spot-in .lead{margin:22px auto 0;color:#d4d4d4;text-shadow:0 2px 20px #000}
+.spot-in .btns,.spot-in a{pointer-events:auto}
+.btn.sunbtn{background:var(--sun);color:#050505;border-color:transparent;box-shadow:0 10px 40px -12px rgba(255,225,77,.7)}
+.spot .mono{color:#8a8a8a}
 </style>
 
 <nav>
@@ -180,27 +199,20 @@ footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:12px;justify-con
   </div>
 </nav>
 
-<header class="hero" id="top">
-  <canvas id="city" aria-hidden="true"></canvas>
-  <div class="toasts" id="toasts" aria-hidden="true"></div>
-  <div class="wrap">
-    <div>
-      <p class="eyebrow">Local visibility agency / UK</p>
-      <h1 style="margin-top:16px">Get talked about.<br>Get <span class="grad" id="rot">found.</span></h1>
-      <p class="lead">Your customers ask Google, Instagram and AI assistants where to go. We keep your socials talking, answer every review, and work to put your name in the answer.</p>
-      <div class="btns">
-        <a class="btn hot" href="#contact">Get your free check →</a>
-        <a class="btn" href="#pricing">See prices</a>
-      </div>
-      <p class="mono" style="margin-top:18px">No contract. No jargon. Just more people finding you.</p>
+<header class="spot" id="top">
+  <div class="words" id="wordsDark" aria-hidden="true"></div>
+  <div class="lit" id="wordsLit" aria-hidden="true"></div>
+  <div class="fadeband" aria-hidden="true"></div>
+  <div class="dotc" aria-hidden="true"></div>
+  <div class="wrap spot-in">
+    <p class="eyebrow" style="color:var(--sun)">Local visibility agency / UK</p>
+    <h1 style="margin-top:16px">In the dark,<br>nobody finds you.<br><span class="sun">We turn the light on.</span></h1>
+    <p class="lead">People are talking about local places right now, on Google, Instagram, TikTok and AI assistants. We make sure they are talking about yours.</p>
+    <div class="btns" style="justify-content:center">
+      <a class="btn sunbtn" href="#contact">Get your free check →</a>
+      <a class="btn" href="#pricing">See prices</a>
     </div>
-    <div class="ask" aria-label="Example of an AI assistant answer that recommends a local business">
-      <form class="try" id="tryForm" autocomplete="off"><span class="spark" aria-hidden="true"></span><label for="tryQ" class="sr" style="position:absolute;left:-9999px">What would your customers ask?</label><input id="tryQ" value="best fried chicken near me, open late?" maxlength="70"><button type="submit">Ask</button></form>
-      <p class="try-hint">Type what your customers would ask, e.g. "pizza in Hayes"</p>
-      <p class="a" id="typed">Here are a few well-reviewed places near you. The top pick is popular for its late opening and for replying to every customer.</p>
-      <div class="hit" id="hit"><strong>Your Business Name</strong><span>★ 4.8 · open till 1am · owner replies to reviews</span></div>
-      <p class="tiny">example answer</p>
-    </div>
+    <p class="mono" style="margin-top:18px">Move your mouse (or drag your finger) to look around</p>
   </div>
 </header>
 
@@ -281,101 +293,19 @@ footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:12px;justify-con
 <div id="fun" aria-hidden="true"></div>
 <div class="buddy" id="buddy" aria-hidden="true">⭐</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
+// SPOTLIGHT hero: the cursor is a torch that reveals what people are saying
 (function(){
-  var cv=document.getElementById('city');
-  if(!window.THREE){return;}
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:false});
-  R.setPixelRatio(Math.min(devicePixelRatio,2));R.setClearColor(0x06090f,1);
-  var S=new THREE.Scene();S.fog=new THREE.FogExp2(0x06090f,0.045);
-  var C=new THREE.PerspectiveCamera(42,1,0.1,200);C.position.set(0,9,22);
-  S.add(new THREE.AmbientLight(0x6b7a99,0.55));
-  var key=new THREE.DirectionalLight(0x9fb6ff,0.5);key.position.set(-8,14,6);S.add(key);
-
-  // ground grid
-  var grid=new THREE.GridHelper(120,120,0x1d3a55,0x10203a);grid.position.y=0.001;S.add(grid);
-
-  // city blocks (instanced)
-  var N=520,geo=new THREE.BoxGeometry(1,1,1);geo.translate(0,.5,0);
-  var mat=new THREE.MeshStandardMaterial({color:0x0f1a2c,roughness:.6,metalness:.3,emissive:0x0a1426});
-  var city=new THREE.InstancedMesh(geo,mat,N),m=new THREE.Matrix4(),q=new THREE.Quaternion(),p=new THREE.Vector3(),sc=new THREE.Vector3(),i=0;
-  function rnd(a,b){return a+Math.random()*(b-a)}
-  while(i<N){var x=Math.round(rnd(-30,30))*1.6,z=Math.round(rnd(-26,8))*1.6;if(Math.abs(x)<2.4&&Math.abs(z)<2.4)continue;
-    var d=Math.hypot(x,z),h=rnd(.4,1)*(1.2+8*Math.exp(-d/14));p.set(x,0,z);sc.set(rnd(.8,1.3),h,rnd(.8,1.3));m.compose(p,q,sc);city.setMatrixAt(i++,m);}
-  S.add(city);
-
-  // window lights as points on tops
-  var wl=new THREE.BufferGeometry(),wp=[];for(var k=0;k<900;k++){wp.push(rnd(-48,48),rnd(.2,6),rnd(-42,12));}
-  wl.setAttribute('position',new THREE.Float32BufferAttribute(wp,3));
-  S.add(new THREE.Points(wl,new THREE.PointsMaterial({color:0x4fe3ff,size:.06,transparent:true,opacity:.55})));
-
-  // the found shop: glowing tower + pin
-  var shop=new THREE.Mesh(new THREE.BoxGeometry(1.6,3.2,1.6).translate(0,1.6,0),new THREE.MeshStandardMaterial({color:0x2a1206,emissive:0xff5a1f,emissiveIntensity:.55,roughness:.4}));S.add(shop);
-  var glow=new THREE.PointLight(0xff6a2a,3.2,26,2);glow.position.set(0,4.5,0);S.add(glow);
-  var pin=new THREE.Group();
-  var head=new THREE.Mesh(new THREE.SphereGeometry(.7,32,24),new THREE.MeshStandardMaterial({color:0xff5a1f,emissive:0xff5a1f,emissiveIntensity:1.2}));
-  var tip=new THREE.Mesh(new THREE.ConeGeometry(.52,1.1,32),head.material);tip.rotation.x=Math.PI;tip.position.y=-.75;
-  var dot=new THREE.Mesh(new THREE.SphereGeometry(.26,16,12),new THREE.MeshBasicMaterial({color:0x06090f}));dot.position.z=.55;
-  pin.add(head,tip,dot);pin.position.set(0,5.6,0);S.add(pin);
-
-  // pulse rings
-  var rings=[];for(var r=0;r<3;r++){var g=new THREE.Mesh(new THREE.RingGeometry(.9,1.02,64),new THREE.MeshBasicMaterial({color:0xff7b2e,transparent:true,side:THREE.DoubleSide}));g.rotation.x=-Math.PI/2;g.position.y=.05;g.userData.t=r/3;S.add(g);rings.push(g);}
-
-  // search streams: particles flying along arcs into the shop
-  var M=reduce?0:160,sp=new Float32Array(M*3),seeds=[];
-  for(var s=0;s<M;s++){var a=rnd(0,Math.PI*2),rr=rnd(14,38);seeds.push({x:Math.cos(a)*rr,z:Math.sin(a)*rr*.8-6,h:rnd(3,9),t:Math.random(),v:rnd(.08,.18)});}
-  var sg=new THREE.BufferGeometry();sg.setAttribute('position',new THREE.BufferAttribute(sp,3));
-  S.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffb347,size:.18,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false})));
-
-  var mx=0,my=0;addEventListener('pointermove',function(e){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;},{passive:true});
-  function size(){var w=cv.clientWidth,h=cv.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.fov=w<700?58:42;C.updateProjectionMatrix();}
-  addEventListener('resize',size);size();
-  var t0=performance.now(),vis=true;
-  new IntersectionObserver(function(e){vis=e[0].isIntersecting;}).observe(cv);
-  function frame(now){requestAnimationFrame(frame);if(!vis)return;var t=(now-t0)/1000;
-    var orbit=reduce?0:t*.05;C.position.x=Math.sin(orbit)*22*.35+mx*4;C.position.z=22-Math.abs(Math.sin(orbit))*3;C.position.y=9-my*2;C.lookAt(0,2.5,-2);
-    pin.position.y=5.6+Math.sin(t*2)*.25;pin.rotation.y=t*.8;
-    rings.forEach(function(g){var u=(g.userData.t+t*.35)%1;var k2=1+u*9;g.scale.set(k2,k2,k2);g.material.opacity=(1-u)*.7;});
-    for(var s=0;s<M;s++){var o=seeds[s];o.t+=o.v*.016;if(o.t>1){o.t=0;}var u=o.t,ix=s*3;
-      sp[ix]=o.x*(1-u);sp[ix+2]=o.z*(1-u);sp[ix+1]=4.6+Math.sin(u*Math.PI)*o.h*(1-u*.4)-u*0;}
-    sg.attributes.position.needsUpdate=true;
-    glow.intensity=2.6+Math.sin(t*3)*.6;
-    R.render(S,C);}
-  requestAnimationFrame(frame);
-})();
-
-// typing effect on the AI answer (text is already visible at rest)
-(function(){var el=document.getElementById('typed');if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  var full=el.textContent,n=0;el.textContent='';var iv=setInterval(function(){n+=2;el.textContent=full.slice(0,n);if(n>=full.length)clearInterval(iv);},28);})();
-
-// HERO EXTRAS — rotating word, live-style notifications, try-it search
-(function(){
-  var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var rot=document.getElementById('rot'),words=['found.','booked.','reviewed.','recommended.','busy.'],wi=0;
-  if(!calm)setInterval(function(){rot.classList.add('out');setTimeout(function(){wi=(wi+1)%words.length;rot.textContent=words[wi];rot.classList.remove('out');},350);},2400);
-  var box=document.getElementById('toasts'),feed=[
-    ['⭐','#3a2a10','New 5-star review','"Best wings in Hayes!" · replied'],
-    ['💬','#10283a','Instagram message','"Open Sunday?" · answered in 4 min'],
-    ['📍','#3a1a10','Directions request','from Google Maps'],
-    ['📞','#10301f','Call from Google','new customer'],
-    ['🤖','#24163a','Mentioned by an AI assistant','"top pick near you"'],
-    ['❤️','#3a1020','+38 likes','on today\'s post'],
-    ['👋','#10283a','New follower','@localfoodie']],fi=0;
-  function toast(){var f=feed[fi++%feed.length],t=document.createElement('div');t.className='toast';
-    t.innerHTML='<span class="ico" style="background:'+f[1]+'">'+f[0]+'</span><span><b>'+f[2]+'</b><small>'+f[3]+'</small></span>';
-    box.prepend(t);setTimeout(function(){t.classList.add('gone');setTimeout(function(){t.remove();},460);},5200);
-    while(box.children.length>3)box.lastChild.remove();}
-  if(!calm){setTimeout(toast,700);setInterval(function(){if(!document.hidden)toast();},1900);}else{toast();toast();}
-  // try-it: rewrite the example answer around what the visitor typed
-  var form=document.getElementById('tryForm'),q=document.getElementById('tryQ'),typed=document.getElementById('typed'),hit=document.getElementById('hit'),iv;
-  function esc(s){return s.replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  form.addEventListener('submit',function(e){e.preventDefault();var s=(q.value||'').trim();if(!s)return;
-    var txt='For "'+s+'", here are the places people trust most. The top pick replies to every review, posts every week and has its details right everywhere.';
-    clearInterval(iv);var n=0;typed.textContent='';iv=setInterval(function(){n+=2;typed.textContent=txt.slice(0,n);if(n>=txt.length){clearInterval(iv);
-      hit.classList.add('you');hit.innerHTML='<strong>Could this be your business?</strong><span>We make you the one people find for "'+esc(s)+'"</span><a class="go" href="#contact">Get your free check →</a>';}},calm?1:18);
-  });
+var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var said=['"best wings in Southall"','★★★★★ lovely staff','where to eat tonight?','"open on Sunday?"','they replied so fast','★★★★★ coming back','family box was massive','"halal near me"','saw them on Instagram','booked a table for 6','★★★★★ best kebab','found them on ChatGPT','"late night food Hayes"','the owner replied 😮','★★★★★ 10/10','"best pizza near me"','great for birthdays','tagged them in my story','★★★★★ fresh and hot','who does good desserts?'];
+var dark=document.getElementById('wordsDark'),lit=document.getElementById('wordsLit'),html='';
+for(var i=0;i<120;i++){var w=said[i%said.length];html+=(i===51?'<span class="you">YOUR BUSINESS</span>':'<span'+(w.charAt(0)==='★'?' class="st"':'')+'>'+w+'</span>');}
+dark.innerHTML=html;lit.innerHTML=html;
+var H=document.getElementById('top'),auto=true,ax=0;
+function setL(x,y){H.style.setProperty('--x',x+'px');H.style.setProperty('--y',y+'px');}
+H.addEventListener('pointermove',function(e){auto=false;var r=H.getBoundingClientRect();setL(e.clientX-r.left,e.clientY-r.top);},{passive:true});
+H.addEventListener('pointerleave',function(){auto=true;});
+(function drift(){requestAnimationFrame(drift);if(!auto)return;ax+=calm?0:.008;var r=H.getBoundingClientRect();setL(r.width*(.5+.32*Math.sin(ax)),r.height*(.5+.28*Math.sin(ax*1.7)));})();
 })();
 
 // FUN LAYER — little people walk across the screen chatting; icons follow the cursor
