@@ -482,7 +482,7 @@ H.addEventListener('pointerleave',function(){auto=true;});
       var jy=0;if(c.jump>0){c.jump+=.06;jy=Math.sin(Math.min(c.jump,Math.PI))*70;if(c.jump>=Math.PI)c.jump=0;}
       c.y=ground-jy;c.e.classList.toggle('run',Math.abs(c.vx)>.8);
       c.e.style.transform='translate('+(c.x-20)+'px,'+(c.y-40)+'px) scaleX('+c.dir+')';});
-    for(var i=goods.length-1;i>=0;i--){var g=goods[i];g.vy=Math.min(g.vy+.05,2.25);g.x+=g.vx;g.y+=g.vy;g.r+=g.vx*2;
+    for(var i=goods.length-1;i>=0;i--){var g=goods[i];g.vy=Math.min(g.vy+.025,1.1);g.x+=g.vx;g.y+=g.vy;g.r+=g.vx*2;
       for(var k=0;k<chasers.length;k++){var C=chasers[k];if(Math.abs(g.x-C.x)<30&&Math.abs(g.y-(C.y-20))<34){catchIt(C,g);break;}}
       if(g.dead||g.y>innerHeight+30){if(!g.dead)g.e.remove();goods.splice(i,1);continue;}
       g.e.style.transform='translate('+(g.x-9)+'px,'+(g.y-9)+'px) rotate('+g.r+'deg)';}
@@ -491,9 +491,9 @@ H.addEventListener('pointerleave',function(){auto=true;});
   // cursor: a buddy that follows, and a trail of stars, hearts, pins and chats
   var buddy=document.getElementById('buddy'),bx=-60,by=-60,tx=-60,ty=-60,icons=['⭐','💬','❤️','📍','👍','🔥'],last=0,n=0;
   var fine=matchMedia('(pointer:fine)').matches;if(!fine)buddy.style.display='none';
-  function puff(x,y){ drop(x,y,icons[n++%icons.length],(Math.random()-.5)*1.5,-1-Math.random()*1.25); }
+  function puff(x,y){ drop(x,y,icons[n++%icons.length],(Math.random()-.5)*.75,-.5-Math.random()*.6); }
 
-  addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY;var now=performance.now();if(now-last>140){last=now;puff(tx,ty);}},{passive:true});
+  addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY;var now=performance.now();if(now-last>280){last=now;puff(tx,ty);}},{passive:true});
   addEventListener('pointerdown',function(e){for(var k=0;k<6;k++)puff(e.clientX,e.clientY);},{passive:true});
   (function follow(){requestAnimationFrame(follow);bx+=(tx+22-bx)*.12;by+=(ty+22-by)*.12;buddy.style.transform='translate('+(bx-17)+'px,'+(by-17)+'px)';if(Math.random()<.004)buddy.textContent=icons[Math.floor(Math.random()*icons.length)];})();
 })();
