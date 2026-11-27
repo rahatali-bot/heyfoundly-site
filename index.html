@@ -461,7 +461,7 @@ H.addEventListener('pointerleave',function(){auto=true;});
   var goods=[];
   window.__hfDrop=drop;
   function drop(x,y,ch,vx,vy){var e=document.createElement('span');e.className='trail';e.textContent=ch;document.body.appendChild(e);goods.push({e:e,x:x,y:y,vx:vx||0,vy:vy||0,r:0});}
-  setInterval(function(){if(document.hidden||goods.length>40)return;drop(Math.random()*innerWidth,-20,icons[Math.floor(Math.random()*icons.length)],(Math.random()-.5)*.6,0);},900);
+  setInterval(function(){if(document.hidden||goods.length>10)return;drop(Math.random()*innerWidth,-20,icons[Math.floor(Math.random()*icons.length)],(Math.random()-.5)*.6,0);},2600);
   // CHASERS: little round characters that run along the bottom and jump to catch the falling likes
   var chasers=[],cols=['#ffe14d','#ff5a1f','#4fe3ff'];
   function mkChaser(i){var d=document.createElement('div');d.className='chaser';d.style.setProperty('--c',cols[i%cols.length]);
@@ -493,8 +493,8 @@ H.addEventListener('pointerleave',function(){auto=true;});
   var fine=matchMedia('(pointer:fine)').matches;if(!fine)buddy.style.display='none';
   function puff(x,y){ drop(x,y,icons[n++%icons.length],(Math.random()-.5)*.75,-.5-Math.random()*.6); }
 
-  addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY;var now=performance.now();if(now-last>280){last=now;puff(tx,ty);}},{passive:true});
-  addEventListener('pointerdown',function(e){for(var k=0;k<6;k++)puff(e.clientX,e.clientY);},{passive:true});
+  addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY;var now=performance.now();if(now-last>800){last=now;puff(tx,ty);}},{passive:true});
+  addEventListener('pointerdown',function(e){for(var k=0;k<2;k++)puff(e.clientX,e.clientY);},{passive:true});
   (function follow(){requestAnimationFrame(follow);bx+=(tx+22-bx)*.12;by+=(ty+22-by)*.12;buddy.style.transform='translate('+(bx-17)+'px,'+(by-17)+'px)';if(Math.random()<.004)buddy.textContent=icons[Math.floor(Math.random()*icons.length)];})();
 })();
 
