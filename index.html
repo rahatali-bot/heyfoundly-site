@@ -119,6 +119,18 @@ ol.steps p{color:var(--dim);font-size:.95rem}
 .plan li{display:grid;grid-template-columns:16px 1fr;gap:10px}
 .plan li::before{content:"";width:8px;height:8px;margin:8px 0 0 3px;border-radius:2px;background:var(--ember);box-shadow:0 0 10px var(--ember)}
 .note{margin-top:18px}
+.launch{margin-top:16px;border-radius:24px;padding:30px clamp(20px,4vw,40px);display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:center;background:radial-gradient(90% 140% at 100% 0%,rgba(255,225,77,.16),transparent 60%),var(--glass);border:1.5px dashed rgba(255,225,77,.55)}
+.launch>*{min-width:0}
+.launch .tag{background:var(--sun,#ffe14d);color:#050505}
+.launch h3{font:400 clamp(1.8rem,3.6vw,2.6rem)/1 var(--display);text-transform:uppercase;margin-top:12px}
+.launch p{color:#c9d2df;margin-top:12px}
+.launch ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.launch li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;font-size:.95rem}
+.launch li span{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(255,225,77,.14);font-size:15px}
+.launch li b{display:block}
+.launch li small{color:var(--dim)}
+.launch .btn{margin-top:18px}
+@media (max-width:860px){.launch{grid-template-columns:1fr}.launch ul{grid-template-columns:1fr}}
 
 /* promise */
 .promise{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
@@ -200,6 +212,7 @@ footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:12px;justify-con
     <div class="links">
       <a href="#services">Services</a>
       <a href="#how">How it works</a>
+      <a href="#launch">Start from zero</a>
       <a href="#pricing">Pricing</a>
       <a class="pill" href="#contact">Free check</a>
     </div>
@@ -273,7 +286,21 @@ footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:12px;justify-con
       <div class="plan"><h3>Full</h3><div class="price">£500<small> /month</small></div><p class="for">For owners who want it all handled, ads included.</p>
         <ul><li>Everything in Growth</li><li>Weekly "do the AIs mention you?" report</li><li>Listings and directories looked after</li><li>Ads run on your budget</li></ul></div>
     </div>
-    <p class="mono note">Ad spend is separate, set and paid by you. Cancel any time with 30 days' notice.</p>
+    <div class="launch" id="launch">
+      <div>
+        <span class="tag">Starting from zero?</span>
+        <h3>No website? No socials?<br>We build it all for you.</h3>
+        <p>Plenty of great local businesses are invisible online: no website, no Instagram, no Google profile. That is exactly where we start. We set everything up from scratch, in your name and fully yours, then keep it alive on any monthly plan.</p>
+        <a class="btn sunbtn" href="#contact">Ask about the Launch Kit →</a>
+      </div>
+      <ul>
+        <li><span>🌐</span><div><b>Your own website</b><small>Fast, mobile-friendly, with your menu, hours and photos</small></div></li>
+        <li><span>📸</span><div><b>Social accounts set up</b><small>Instagram, Facebook and TikTok, branded and ready to post</small></div></li>
+        <li><span>📍</span><div><b>Google Business profile</b><small>On Maps, with photos, hours and a link to call or book</small></div></li>
+        <li><span>⭐</span><div><b>Your first reviews</b><small>A simple QR card so happy customers can review you</small></div></li>
+      </ul>
+    </div>
+    <p class="mono note">Ad spend is separate, set and paid by you. Launch Kit is a one-off setup, priced on request. Cancel monthly plans any time with 30 days' notice.</p>
   </div>
 </section>
 
