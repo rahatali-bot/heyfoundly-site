@@ -39,6 +39,8 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px
 .brandmark{display:inline-flex;align-items:center;gap:14px;font:400 clamp(2.4rem,7vw,4.6rem)/1 var(--display);text-transform:uppercase;letter-spacing:.03em;color:#fff;text-shadow:0 0 40px rgba(255,225,77,.35)}
 .brandmark i{width:.42em;height:.42em;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--sun,#ffe14d);box-shadow:0 0 30px 8px rgba(255,225,77,.55)}
 .brandmark b{color:var(--sun,#ffe14d);font-weight:400}
+.tld{font:500 .38em/1 var(--mono);letter-spacing:.04em;text-transform:lowercase;color:#bdbdbd;align-self:flex-end;margin:0 0 .28em -.35em}
+.logo .tld{font-size:.42em;margin-bottom:.22em}
 .pun{display:block;margin-top:10px;font:500 .9rem/1.3 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#bdbdbd}
 .bigfoot{font:400 clamp(4rem,17vw,15rem)/.8 var(--display);text-transform:uppercase;text-align:center;letter-spacing:.01em;margin:0;padding-block:40px 0;background:linear-gradient(180deg,#ffffff 0%,rgba(255,255,255,.08) 95%);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none;overflow:hidden;white-space:nowrap}
 .links{display:flex;gap:22px;align-items:center;font-size:.92rem}
@@ -208,7 +210,7 @@ footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:12px;justify-con
 
 <nav>
   <div class="wrap">
-    <a class="logo" href="#top"><i aria-hidden="true"></i>Hey<b>Foundly</b></a>
+    <a class="logo" href="#top"><i aria-hidden="true"></i>Hey<b>Foundly</b><small class="tld">.com</small></a>
     <div class="links">
       <a href="#services">Services</a>
       <a href="#how">How it works</a>
@@ -225,7 +227,7 @@ footer .wrap{padding-block:36px;display:flex;flex-wrap:wrap;gap:12px;justify-con
   <div class="fadeband" aria-hidden="true"></div>
   <div class="dotc" aria-hidden="true"></div>
   <div class="wrap spot-in">
-    <div class="brandmark"><i aria-hidden="true"></i>Hey<b>Foundly</b></div>
+    <div class="brandmark"><i aria-hidden="true"></i>Hey<b>Foundly</b><small class="tld">.com</small></div>
     <span class="pun">Hey, found you. · Local visibility agency / UK</span>
     <h1 style="margin-top:28px">In the dark,<br>nobody finds you.<br><span class="sun">We turn the light on.</span></h1>
     <p class="lead">People are talking about local places right now, on Google, Instagram, TikTok and AI assistants. We make sure they are talking about yours.</p>
