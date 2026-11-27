@@ -461,7 +461,7 @@ H.addEventListener('pointerleave',function(){auto=true;});
   var goods=[];
   window.__hfDrop=drop;
   function drop(x,y,ch,vx,vy){var e=document.createElement('span');e.className='trail';e.textContent=ch;document.body.appendChild(e);goods.push({e:e,x:x,y:y,vx:vx||0,vy:vy||0,r:0});}
-  setInterval(function(){if(document.hidden||goods.length>10)return;drop(Math.random()*innerWidth,-20,icons[Math.floor(Math.random()*icons.length)],(Math.random()-.5)*.6,0);},2600);
+  setInterval(function(){if(document.hidden||goods.length>5)return;drop(Math.random()*innerWidth,-20,icons[Math.floor(Math.random()*icons.length)],(Math.random()-.5)*.6,0);},6000);
   // CHASERS: little round characters that run along the bottom and jump to catch the falling likes
   var chasers=[],cols=['#ffe14d','#ff5a1f','#4fe3ff'];
   function mkChaser(i){var d=document.createElement('div');d.className='chaser';d.style.setProperty('--c',cols[i%cols.length]);
