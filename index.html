@@ -379,7 +379,7 @@ section,footer,.bigfoot,.ticker{position:relative;z-index:1}
 
 <script>
 // WATERMARK behind the rest of the page
-(function(){var said=['"best wings in Southall"','★★★★★ lovely staff','where to eat tonight?','"open on Sunday?"','they replied so fast','★★★★★ coming back','family box was massive','"halal near me"','saw them on Instagram','booked a table for 6','★★★★★ best kebab','found them on ChatGPT','"late night food Hayes"','the owner replied 😮','★★★★★ 10/10','"best pizza near me"','great for birthdays','tagged them in my story','★★★★★ fresh and hot','who does good desserts?'];
+(function(){var said=['"best wings in Southall"','★★★★★ lovely staff','where to eat tonight?','"open on Sunday?"','they replied so fast','★★★★★ coming back','family box was massive','"halal near me"','saw them on Instagram','booked a table for 6','★★★★★ best kebab','found them on ChatGPT','"late night food Hayes"','the owner replied!','★★★★★ 10/10','"best pizza near me"','great for birthdays','tagged them in my story','★★★★★ fresh and hot','who does good desserts?'];
   var h='';for(var i=0;i<90;i++)h+='<span>'+said[(i*7)%said.length]+'</span>';document.getElementById('wm').innerHTML=h;document.getElementById('wm2').innerHTML=h;
   var R=document.documentElement;addEventListener('pointermove',function(e){R.style.setProperty('--mx',e.clientX+'px');R.style.setProperty('--my',e.clientY+'px');},{passive:true});
   document.addEventListener('pointerleave',function(){R.style.setProperty('--mx','-999px');});})();
@@ -387,7 +387,7 @@ section,footer,.bigfoot,.ticker{position:relative;z-index:1}
 // SPOTLIGHT hero: the cursor is a torch that reveals what people are saying
 (function(){
 var calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
-var said=['"best wings in Southall"','★★★★★ lovely staff','where to eat tonight?','"open on Sunday?"','they replied so fast','★★★★★ coming back','family box was massive','"halal near me"','saw them on Instagram','booked a table for 6','★★★★★ best kebab','found them on ChatGPT','"late night food Hayes"','the owner replied 😮','★★★★★ 10/10','"best pizza near me"','great for birthdays','tagged them in my story','★★★★★ fresh and hot','who does good desserts?'];
+var said=['"best wings in Southall"','★★★★★ lovely staff','where to eat tonight?','"open on Sunday?"','they replied so fast','★★★★★ coming back','family box was massive','"halal near me"','saw them on Instagram','booked a table for 6','★★★★★ best kebab','found them on ChatGPT','"late night food Hayes"','the owner replied!','★★★★★ 10/10','"best pizza near me"','great for birthdays','tagged them in my story','★★★★★ fresh and hot','who does good desserts?'];
 var dark=document.getElementById('wordsDark'),lit=document.getElementById('wordsLit'),html='';
 for(var i=0;i<120;i++){var w=said[i%said.length];html+=(i===51?'<span class="you">YOUR BUSINESS</span>':'<span'+(w.charAt(0)==='★'?' class="st"':'')+'>'+w+'</span>');}
 dark.innerHTML=html;lit.innerHTML=html;
